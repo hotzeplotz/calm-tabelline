@@ -3,10 +3,15 @@
 // digit palette (--d0..--d9), defined per theme so switching light/dark
 // re-tints every number instantly with no re-render.
 //
-// The digit values below are INFERRED (the reference image host blocked direct
-// fetching): the light set aims at the print colours, tuned for contrast on
-// white; the dark set is lightened to stay legible on the dark background.
-// To use exact values, replace the two blocks marked "Bortolato palette".
+// Digits 2-9 are MEASURED from the Tabelline al volo cover photo (striscia.jpg,
+// median-sampled per panel/card): the light set keeps the measured values,
+// darkened only where needed to reach >=3:1 contrast on white; the dark set
+// keeps the same hues, lightened only enough to reach >=4.5:1 on the dark
+// panel. Caveat: the source is a shaded cover illustration, so the hues are
+// the product's muted print style, and 6 (olive) sits close to 7 (yellow) —
+// they differ mainly in lightness/saturation, as on the strip itself.
+// 0 is unassigned on the strip (neutral grey); 1 (black / canna di fucile)
+// has no panel in the photo, so it stays as described, not measured.
 // ---------------------------------------------------------------------------
 
 :root {
@@ -27,17 +32,17 @@
   --sel-ink: #161616;
   --btn-ink: #0f1013;
 
-  // Bortolato palette — DARK theme (lightened for contrast on dark bg)
+  // Bortolato palette — DARK theme (measured hues, lightened for contrast on dark bg)
   --d0: #868c96; // 0 — unspecified, neutral grey
   --d1: #aeb4bf; // 1 — black / canna di fucile
-  --d2: #e05a9e; // 2 — reddish-purple
-  --d3: #b06fe0; // 3 — purple
-  --d4: #5b9bf0; // 4 — blue
-  --d5: #2bc0c0; // 5 — green-blue
-  --d6: #a0d24e; // 6 — pea green
-  --d7: #f4cc33; // 7 — egg-yolk yellow
-  --d8: #f59a45; // 8 — orange
-  --d9: #f0554f; // 9 — red
+  --d2: #aa7188; // 2 — reddish-purple
+  --d3: #9b7499; // 3 — purple
+  --d4: #76829c; // 4 — blue
+  --d5: #769b91; // 5 — green-blue (measured)
+  --d6: #b3a551; // 6 — pea/olive green (measured)
+  --d7: #d7b248; // 7 — egg-yolk yellow (measured)
+  --d8: #c68d4f; // 8 — orange (measured)
+  --d9: #c16857; // 9 — red
 
   --radius: 12px;
   --mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono",
@@ -62,15 +67,15 @@
   --sel-ink: #241a00;
   --btn-ink: #ffffff;
 
-  // Bortolato palette — LIGHT theme (print-faithful, tuned for contrast on white)
+  // Bortolato palette — LIGHT theme (measured from striscia.jpg; 6/7/8 darkened for contrast on white)
   --d0: #6b7078;
   --d1: #2b2f36;
-  --d2: #bb2b7a;
-  --d3: #8a34b0;
-  --d4: #1f66cc;
-  --d5: #0a9ea0;
-  --d6: #6fa61f;
-  --d7: #cf9e00;
-  --d8: #e2761a;
-  --d9: #d81f1f;
+  --d2: #a0617b; // measured
+  --d3: #775675; // measured
+  --d4: #687590; // measured
+  --d5: #769b91; // measured
+  --d6: #a09346;
+  --d7: #b59028;
+  --d8: #c48847;
+  --d9: #b65643; // measured
 }
