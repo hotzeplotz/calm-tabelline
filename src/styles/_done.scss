@@ -1,0 +1,20 @@
+.done-h {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.done-sub {
+  color: var(--dim);
+  font-size: 14px;
+  margin: 0 0 24px;
+  max-width: 46ch;
+  .num {
+    color: var(--green);
+  }
+}
+.done-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
