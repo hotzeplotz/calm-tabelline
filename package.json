@@ -4,6 +4,9 @@
   "description": "A calm, terminal-styled times-tables practice app for kids. Builds to a single self-contained HTML file.",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "npm run typecheck && node build.mjs",
