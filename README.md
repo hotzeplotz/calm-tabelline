@@ -12,10 +12,12 @@ onto a tablet and opened in Webview Kiosk — or from any static host.
 ## Quick start
 
 ```bash
-npm install
+npm install          # Node 26 (fnm reads .node-version)
 npm run build        # typecheck + bundle -> dist/times-tables.html
 npm run build:fast   # bundle only (skip typecheck)
+npm run dev          # watch mode: rebuild on any src/ change
 npm run typecheck    # tsc --noEmit
+npm test             # build:fast + jsdom smoke test
 npm run build -- --minify   # minified output
 ```
 
@@ -42,7 +44,9 @@ src/
     _base.scss        layout, window chrome, responsive/full-screen + safe-area
     _menu.scss _practice.scss _done.scss
     main.scss         @use of all partials
-build.mjs             SCSS -> CSS, TS -> IIFE bundle, inlined into one HTML file
+test/
+  smoke.test.mjs      jsdom smoke test over the built file (npm test)
+build.mjs             SCSS -> CSS, TS -> IIFE bundle, inlined into one HTML file (--watch, --minify)
 ```
 
 See `HANDOVER.md` for the full picture, the palette-swap procedure, tablet

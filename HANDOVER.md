@@ -18,11 +18,15 @@ Tab and opened offline in Webview Kiosk under a restricted child profile.
 
 ## Build & verify
 
+Node 26 via fnm (`.node-version` is committed; `fnm use` picks it up).
+
 ```bash
 npm install
 npm run typecheck          # strict tsc, must stay at 0 errors
 npm run build              # typecheck + bundle -> dist/times-tables.html
 npm run build -- --minify  # smaller output for the device
+npm test                   # build:fast + jsdom smoke test (node:test)
+npm run dev                # watch mode: rebuild on any src/ change
 ```
 
 The build (`build.mjs`) does three things: compiles `src/styles/main.scss` with
@@ -31,13 +35,14 @@ into `src/index.html` by replacing the `/*__CSS__*/` and `/*__JS__*/` placeholde
 The replacers are **function-form `.replace()`** on purpose — the CSS/JS contain
 `$` sequences that string-form replacement would mangle. Keep them that way.
 
-There is no committed test, but a headless jsdom smoke test was used during the
-rewrite and is easy to recreate: load `dist/times-tables.html` with
-`runScripts:"dangerously"`, then assert the menu renders, a mode/range change
-re-renders, `start` enters practice, tapping `[data-a="reveal"]` shows the answer,
-the `#codeseg` toggle injects `var(--dN)`, and a language switch changes the title.
-jsdom has no `matchMedia` (the code guards for it) and no real layout, so the
-slider drag math and safe-area CSS can only be checked in a real browser.
+The smoke test is committed at `test/smoke.test.mjs` (`npm test`): it loads
+`dist/times-tables.html` into jsdom with `runScripts:"dangerously"` and covers
+menu render + defaults, mode/range re-render, entering practice, reveal, the
+`var(--dN)` colour toggle, and language switching. jsdom's default about:blank
+origin makes `localStorage` throw, so the test exercises the same baked-in
+defaults path as the tablet's `file://` worst case. jsdom has no `matchMedia`
+(the code guards for it) and no real layout, so the slider drag math and
+safe-area CSS can only be checked in a real browser.
 
 ## Architecture in one paragraph
 
@@ -59,28 +64,29 @@ properties `--d0..--d9` defined **twice** in `src/styles/_tokens.scss` — once 
 `:root` (dark theme) and once under `[data-theme="light"]`. This is why toggling
 the theme re-tints every number instantly with no re-render.
 
-The current values are **inferred**, not measured: the reference image
-(`erickson.it/media/.../237675_EDI2702_Tabelline-al-volo_2.jpg`) blocks automated
-fetching. The mapping (digit → colour) came from the user's description: 1 =
-black/canna di fucile, 2 = reddish-purple, 3 = purple, 4 = blue, 5 = green-blue,
-6 = pea green, 7 = egg-yolk yellow, 8 = orange, 9 = red; 0 is unspecified (neutral
-grey placeholder). The light set targets the print colours tuned for contrast on
-white; the dark set is lightened to stay legible on the dark background.
+Digits 2–9 are now **measured** from the user-supplied cover photo of *Tabelline
+al volo* (`../striscia.jpg`, median-sampled per strip panel / fan card). The
+light set keeps the measured values, with 6/7/8 darkened just enough to reach
+≥3:1 contrast on white; the dark set keeps the same hues lifted to ≥4.5:1 on the
+dark panel. Two caveats: the source is a shaded cover illustration (so hues are
+the product's muted print style, and 6-olive sits close to 7-yellow, as on the
+strip itself), and 0/1 remain unmeasured — 0 has no colour on the strip (neutral
+grey), 1 (black / canna di fucile) has no visible panel in the photo.
 
-**To drop in exact values:** edit the two blocks marked `Bortolato palette` in
-`_tokens.scss`, rebuild. If the user hands you real hex codes they read off the
+**To refine further:** edit the two blocks marked `Bortolato palette` in
+`_tokens.scss`, rebuild. If the user hands you hex codes read off the physical
 strip, replace the light-theme block verbatim, then produce the dark-theme block
 by nudging each toward higher lightness (only enough to clear the dark bg) rather
 than inventing new hues.
 
 ## Defaults for the tablet
 
-`state.ts#createState()` sets the starting preferences: `theme:"system"`,
-`lang:"en"`, `code:false` (via `load("code","0")`), plus `table:6`, full range,
-`order:"seq"`, `mode:"study"`, `n:4`. On a `file://` origin `localStorage` may not
-persist between launches, so if the child should always open in, say, Italian with
-colour-coding on, **bake it into the defaults** rather than relying on the toggles:
-change the `load(...)` fallbacks (`"en"` → `"it"`, `"0"` → `"1"`).
+`state.ts#createState()` sets the starting preferences, baked in for the tablet
+(a `file://` origin's `localStorage` may not persist between launches):
+`theme:"system"`, `lang:"pt"`, `code:true` (via `load("code","1")`), plus
+`table:2`, full range, `order:"seq"`, `mode:"study"`, `n:4`. To change the launch
+state, edit the `load(...)` fallbacks / literals there — the smoke test asserts
+them, so update `test/smoke.test.mjs` in the same change.
 
 ## Distribution (context, not a task)
 
@@ -100,18 +106,24 @@ is set in `index.html`. Worth a real-device sanity check.
 
 ## Current TODOs / open threads
 
-- **Exact palette RGBs** — swap the inferred values once the user supplies them
-  (see palette section). This is the top item.
+Done in the takeover session (2026-07-21): exact palette measured from
+`../striscia.jpg`, smoke test committed as `npm test`, `--watch` mode added
+(`npm run dev`), tablet defaults baked in (pt / colours on / table 2), Node
+pinned to 26 via fnm, repo initialised.
+
+Still open:
+
 - **Menu table pills are deliberately uncoloured.** Colouring the 2–9 picker pills
   in their tabellina hues would reinforce the mapping, but the selected-pill
   highlight (amber fill) needs rethinking so a coloured digit on amber doesn't
   clash — likely: when coding is on, show the number in its colour and mark
-  selection with a ring/border instead of the fill. Held pending the palette.
-- **No watch mode.** `build.mjs` is one-shot. A `--watch` using esbuild's `context`
-  API plus a sass recompile on change would speed iteration; left out to keep deps
-  minimal.
-- **Commit the smoke test** as a proper `npm test` if the project grows.
-- **`0` colour** is a guess; confirm whether the strip assigns 0 a colour at all.
+  selection with a ring/border instead of the fill. Palette is in, so this is
+  unblocked.
+- **`0` and `1` colours** are still unmeasured (see palette section); values read
+  off the physical strip would settle them — and could refine 2–9 beyond the
+  cover-illustration approximation.
+- **Real-device check** of the safe-area/titlebar CSS and the measured palette on
+  the tablet.
 
 ## Constraints worth respecting
 
