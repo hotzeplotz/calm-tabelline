@@ -86,6 +86,7 @@ function updateChrome(): void {
   const l = L();
   (document.getElementById("ttl") as HTMLElement).innerHTML = `<b>${l.brand}</b> ${l.suffix}`;
   document.title = l.brand;
+  document.documentElement.lang = S.lang;
   syncSeg("langseg", "data-lang", S.lang);
   syncSeg("themeseg", "data-theme", S.theme);
   syncSeg("codeseg", "data-code", S.code ? "1" : "0");

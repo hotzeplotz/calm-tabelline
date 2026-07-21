@@ -28,10 +28,10 @@ export function save(key: string, value: string): void {
 export function createState(): State {
   return {
     theme: load("theme", "system") as State["theme"],
-    lang: load("lang", "en") as State["lang"],
-    code: load("code", "0") === "1",
+    lang: load("lang", "pt") as State["lang"],
+    code: load("code", "1") === "1",
     view: "menu",
-    table: 6,
+    table: 2,
     start: 1,
     end: 10,
     custom: false,
