@@ -46,6 +46,13 @@
     color: var(--sel-ink);
     background: var(--sel-bg);
   }
+  // Colour-coded table pills: the digit carries its tabellina colour, so the
+  // selected state is a ring rather than the amber fill it would clash with.
+  &.tint.on {
+    background: transparent;
+    border-color: var(--sel-bg);
+    box-shadow: inset 0 0 0 1.5px var(--sel-bg);
+  }
   &.mini {
     padding: 6px 11px;
     min-height: 32px;

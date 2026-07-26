@@ -1,8 +1,9 @@
 import type { State } from "../types";
 import type { Strings } from "../i18n";
+import { colorNum } from "../colors";
 
-function pill(attr: string, value: string, label: string, on: boolean): string {
-  return `<button type="button" class="pill${on ? " on" : ""}" data-a="${attr}" data-v="${value}">${label}</button>`;
+function pill(attr: string, value: string, label: string, on: boolean, cls = ""): string {
+  return `<button type="button" class="pill${cls}${on ? " on" : ""}" data-a="${attr}" data-v="${value}">${label}</button>`;
 }
 
 function slider(s: State): string {
@@ -28,8 +29,10 @@ function slider(s: State): string {
 }
 
 export function renderMenu(s: State, l: Strings): string {
+  // With colour-coding on, each pill wears its tabellina hue; selection then
+  // becomes a ring instead of the amber fill so the tint stays legible.
   const tables = [2, 3, 4, 5, 6, 7, 8, 9]
-    .map((t) => pill("table", String(t), String(t), t === s.table))
+    .map((t) => pill("table", String(t), colorNum(t, s.code), t === s.table, s.code ? " tint" : ""))
     .join("");
 
   const preset = (a: number, b: number): boolean => !s.custom && s.start === a && s.end === b;
