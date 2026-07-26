@@ -34,7 +34,10 @@
   min-height: 38px;
   border-radius: 8px;
   cursor: pointer;
-  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  transition:
+    border-color 0.12s,
+    background 0.12s,
+    color 0.12s;
   &:hover {
     border-color: #3a3e49;
   }
@@ -81,7 +84,9 @@
   border: 1px solid var(--green);
   color: var(--btn-ink);
   background: var(--green);
-  transition: filter 0.12s, transform 0.02s;
+  transition:
+    filter 0.12s,
+    transform 0.02s;
   &:hover {
     filter: brightness(1.06);
   }

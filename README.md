@@ -3,7 +3,7 @@
 A calm, terminal-styled times-tables practice app for a young child. It treats
 practice as a real tool rather than a game: no timers, no scores-against-you, no
 cartoon reward loops. Three languages (EN / PT / IT), light/dark/system themes,
-and optional Bortolato *Striscia delle tabelline* colour-coding.
+and optional Bortolato _Striscia delle tabelline_ colour-coding.
 
 The whole app builds to **one self-contained HTML file** (`dist/times-tables.html`)
 with zero external requests, so it runs offline from a `file://` path — e.g. copied

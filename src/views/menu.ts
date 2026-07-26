@@ -53,7 +53,10 @@ export function renderMenu(s: State, l: Strings): string {
   const choices =
     s.mode === "choose"
       ? `<div class="row"><div class="rl">${l.kchoices}</div><div><div class="pills">` +
-        [3, 4, 5].map((k) => pill("n", String(k), String(k), k === s.n)).join("").replace(/class="pill/g, 'class="pill mini') +
+        [3, 4, 5]
+          .map((k) => pill("n", String(k), String(k), k === s.n))
+          .join("")
+          .replace(/class="pill/g, 'class="pill mini') +
         `</div></div></div>`
       : "";
 

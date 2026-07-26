@@ -45,8 +45,9 @@
   --d9: #c16857; // 9 — red
 
   --radius: 12px;
-  --mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono",
-    "DejaVu Sans Mono", ui-monospace, Menlo, Consolas, monospace;
+  --mono:
+    "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", "DejaVu Sans Mono", ui-monospace, Menlo,
+    Consolas, monospace;
 }
 
 [data-theme="light"] {

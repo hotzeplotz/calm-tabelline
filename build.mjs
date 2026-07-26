@@ -43,7 +43,9 @@ async function build() {
 
   await mkdir(p("dist"), { recursive: true });
   await writeFile(p("dist/times-tables.html"), html, "utf8");
-  console.log(`built dist/times-tables.html  (${(html.length / 1024).toFixed(1)} kB${minify ? ", minified" : ""})`);
+  console.log(
+    `built dist/times-tables.html  (${(html.length / 1024).toFixed(1)} kB${minify ? ", minified" : ""})`,
+  );
 }
 
 if (watching) {

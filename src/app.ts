@@ -92,9 +92,12 @@ function updateChrome(): void {
   syncSeg("codeseg", "data-code", S.code ? "1" : "0");
 }
 function syncSeg(id: string, attr: string, value: string): void {
-  document.getElementById(id)!.querySelectorAll("button").forEach((b) => {
-    b.classList.toggle("on", b.getAttribute(attr) === value);
-  });
+  document
+    .getElementById(id)!
+    .querySelectorAll("button")
+    .forEach((b) => {
+      b.classList.toggle("on", b.getAttribute(attr) === value);
+    });
 }
 
 function render(): void {
@@ -124,20 +127,53 @@ function onAppClick(e: MouseEvent): void {
   const a = el.getAttribute("data-a")!;
   const v = el.getAttribute("data-v");
   switch (a) {
-    case "table": S.table = Number(v); break;
-    case "range": setRange(v!); break;
-    case "order": S.order = v as Order; break;
-    case "mode": S.mode = v as Mode; break;
-    case "n": S.n = Number(v); break;
-    case "start": startPractice(); return;
-    case "pick": pick(Number(v)); return;
-    case "reveal": reveal(); return;
-    case "next": advance(); return;
-    case "prev": back(); return;
-    case "again": S.retryMode = false; S.view = "practice"; buildSession(S, range(S.start, S.end)); render(); return;
-    case "retry": S.retryMode = true; S.view = "practice"; buildSession(S, S.missed.slice()); render(); return;
-    case "menu": toMenu(); return;
-    default: return;
+    case "table":
+      S.table = Number(v);
+      break;
+    case "range":
+      setRange(v!);
+      break;
+    case "order":
+      S.order = v as Order;
+      break;
+    case "mode":
+      S.mode = v as Mode;
+      break;
+    case "n":
+      S.n = Number(v);
+      break;
+    case "start":
+      startPractice();
+      return;
+    case "pick":
+      pick(Number(v));
+      return;
+    case "reveal":
+      reveal();
+      return;
+    case "next":
+      advance();
+      return;
+    case "prev":
+      back();
+      return;
+    case "again":
+      S.retryMode = false;
+      S.view = "practice";
+      buildSession(S, range(S.start, S.end));
+      render();
+      return;
+    case "retry":
+      S.retryMode = true;
+      S.view = "practice";
+      buildSession(S, S.missed.slice());
+      render();
+      return;
+    case "menu":
+      toMenu();
+      return;
+    default:
+      return;
   }
   render();
 }

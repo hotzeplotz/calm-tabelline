@@ -1,38 +1,48 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="color-scheme" content="dark light" />
-<title>times tables</title>
-<style>/*__CSS__*/</style>
-</head>
-<body>
-  <div class="window" role="application" aria-label="Times tables practice">
-    <div class="titlebar" id="titlebar">
-      <div class="dots" aria-hidden="true">
-        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <title>times tables</title>
+    <style>
+      /*__CSS__*/
+    </style>
+  </head>
+  <body>
+    <div class="window" role="application" aria-label="Times tables practice">
+      <div class="titlebar" id="titlebar">
+        <div class="dots" aria-hidden="true">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        </div>
+        <div class="title" id="ttl"></div>
+        <div class="tb-controls">
+          <div class="seg" id="langseg" role="group" aria-label="language">
+            <button type="button" data-lang="en">EN</button>
+            <button type="button" data-lang="pt">PT</button>
+            <button type="button" data-lang="it">IT</button>
+          </div>
+          <div class="seg" id="themeseg" role="group" aria-label="theme">
+            <button type="button" data-theme="light" title="light" aria-label="light theme">&#9728;</button>
+            <button type="button" data-theme="dark" title="dark" aria-label="dark theme">&#9789;</button>
+            <button type="button" data-theme="system" title="system" aria-label="match system">
+              &#9673;
+            </button>
+          </div>
+          <div class="seg" id="codeseg" role="group" aria-label="number colours">
+            <button type="button" data-code="0" title="plain colours" aria-label="plain colours">
+              <span class="sw sw-plain"></span>
+            </button>
+            <button type="button" data-code="1" title="number colours" aria-label="colour-coded numbers">
+              <span class="sw sw-code"></span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="title" id="ttl"></div>
-      <div class="tb-controls">
-        <div class="seg" id="langseg" role="group" aria-label="language">
-          <button type="button" data-lang="en">EN</button>
-          <button type="button" data-lang="pt">PT</button>
-          <button type="button" data-lang="it">IT</button>
-        </div>
-        <div class="seg" id="themeseg" role="group" aria-label="theme">
-          <button type="button" data-theme="light" title="light" aria-label="light theme">&#9728;</button>
-          <button type="button" data-theme="dark" title="dark" aria-label="dark theme">&#9789;</button>
-          <button type="button" data-theme="system" title="system" aria-label="match system">&#9673;</button>
-        </div>
-        <div class="seg" id="codeseg" role="group" aria-label="number colours">
-          <button type="button" data-code="0" title="plain colours" aria-label="plain colours"><span class="sw sw-plain"></span></button>
-          <button type="button" data-code="1" title="number colours" aria-label="colour-coded numbers"><span class="sw sw-code"></span></button>
-        </div>
-      </div>
+      <div class="body" id="app"></div>
     </div>
-    <div class="body" id="app"></div>
-  </div>
-  <script>/*__JS__*/</script>
-</body>
+    <script>
+      /*__JS__*/
+    </script>
+  </body>
 </html>

@@ -21,8 +21,7 @@ export function wireSlider(root: HTMLElement, s: State): void {
     fill.style.width = pct(s.end) - pct(s.start) + "%";
     tMin.setAttribute("aria-valuenow", String(s.start));
     tMax.setAttribute("aria-valuenow", String(s.end));
-    val.innerHTML =
-      `<span class="v">\u00d7${s.start}</span> <span class="op">\u2013</span> <span class="v">\u00d7${s.end}</span>`;
+    val.innerHTML = `<span class="v">\u00d7${s.start}</span> <span class="op">\u2013</span> <span class="v">\u00d7${s.end}</span>`;
   }
 
   function valueAt(clientX: number): number {
@@ -37,7 +36,12 @@ export function wireSlider(root: HTMLElement, s: State): void {
     paint();
   }
 
-  ([["min", tMin], ["max", tMax]] as const).forEach(([which, el]) => {
+  (
+    [
+      ["min", tMin],
+      ["max", tMax],
+    ] as const
+  ).forEach(([which, el]) => {
     el.addEventListener("pointerdown", (e: PointerEvent) => {
       e.preventDefault();
       el.setPointerCapture(e.pointerId);
@@ -58,7 +62,12 @@ export function wireSlider(root: HTMLElement, s: State): void {
     });
 
     el.addEventListener("keydown", (e: KeyboardEvent) => {
-      const d = e.key === "ArrowRight" || e.key === "ArrowUp" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowDown" ? -1 : 0;
+      const d =
+        e.key === "ArrowRight" || e.key === "ArrowUp"
+          ? 1
+          : e.key === "ArrowLeft" || e.key === "ArrowDown"
+            ? -1
+            : 0;
       if (!d) return;
       e.preventDefault();
       e.stopPropagation();

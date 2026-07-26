@@ -20,7 +20,9 @@ export function renderDone(s: State, l: Strings): string {
 
   const actions =
     `<button type="button" class="ctrl primary" data-a="again">${l.goAgain} \u21b5</button>` +
-    (missed.length ? `<button type="button" class="ctrl ghost" data-a="retry">${l.retryBtn(missed.length)}</button>` : "") +
+    (missed.length
+      ? `<button type="button" class="ctrl ghost" data-a="retry">${l.retryBtn(missed.length)}</button>`
+      : "") +
     `<button type="button" class="ctrl ghost" data-a="menu">${l.changeSetup}</button>`;
 
   return (

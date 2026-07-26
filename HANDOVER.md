@@ -10,7 +10,7 @@ guiding principle is **anti-patronising**: it looks like a calm terminal tool, n
 a children's game. No timers, no points, gentle wrong-answer wording, and the full
 1–10 table always visible as a "this is a small, finite thing" reassurance. UI in
 English, Portuguese and Italian (the child is Italian, living in Portugal). Uses
-the colour associations from Camillo Bortolato's *Striscia delle tabelline* as an
+the colour associations from Camillo Bortolato's _Striscia delle tabelline_ as an
 optional memory aid.
 
 It ships as one self-contained HTML file so it can be copied onto a Samsung Galaxy
@@ -64,8 +64,8 @@ properties `--d0..--d9` defined **twice** in `src/styles/_tokens.scss` — once 
 `:root` (dark theme) and once under `[data-theme="light"]`. This is why toggling
 the theme re-tints every number instantly with no re-render.
 
-Digits 2–9 are now **measured** from the user-supplied cover photo of *Tabelline
-al volo* (`../striscia.jpg`, median-sampled per strip panel / fan card). The
+Digits 2–9 are now **measured** from the user-supplied cover photo of _Tabelline
+al volo_ (`../striscia.jpg`, median-sampled per strip panel / fan card). The
 light set keeps the measured values, with 6/7/8 darkened just enough to reach
 ≥3:1 contrast on white; the dark set keeps the same hues lifted to ≥4.5:1 on the
 dark panel. Two caveats: the source is a shaded cover illustration (so hues are

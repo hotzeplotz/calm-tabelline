@@ -79,10 +79,20 @@ export function clamp(v: number, lo: number, hi: number): number {
 export function makeChoices(a: number, b: number, n: number): number[] {
   const correct = a * b;
   const raw = [
-    a * (b + 1), a * (b - 1), (a + 1) * b, (a - 1) * b,
-    correct + a, correct - a, correct + b, correct - b,
-    correct + 1, correct - 1, correct + 2, correct - 2,
-    a * (b + 2), a * (b - 2),
+    a * (b + 1),
+    a * (b - 1),
+    (a + 1) * b,
+    (a - 1) * b,
+    correct + a,
+    correct - a,
+    correct + b,
+    correct - b,
+    correct + 1,
+    correct - 1,
+    correct + 2,
+    correct - 2,
+    a * (b + 2),
+    a * (b - 2),
   ];
   if (correct >= 10) raw.push(parseInt(String(correct).split("").reverse().join(""), 10));
 

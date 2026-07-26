@@ -135,7 +135,9 @@
   font-size: 22px;
   color: var(--ink);
   user-select: none;
-  transition: border-color 0.12s, background 0.12s;
+  transition:
+    border-color 0.12s,
+    background 0.12s;
   &:hover {
     border-color: #3a3e49;
   }
@@ -194,7 +196,11 @@
   border: 1px solid var(--border);
   background: transparent;
   color: var(--ink);
-  transition: filter 0.12s, border-color 0.12s, background 0.12s, transform 0.02s;
+  transition:
+    filter 0.12s,
+    border-color 0.12s,
+    background 0.12s,
+    transform 0.02s;
   small {
     font-size: 10px;
     color: inherit;
