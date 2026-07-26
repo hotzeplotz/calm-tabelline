@@ -23,6 +23,16 @@ npm run build -- --minify   # minified output
 
 Open `dist/times-tables.html` in a browser, or copy it to the device.
 
+`npm run format` / `npm run format:check` run Prettier.
+
+## Deployment
+
+Every push to `main` runs `.github/workflows/deploy.yml`: format check,
+typecheck, jsdom smoke test, then a minified build published to GitHub Pages
+at <https://hotzeplotz.github.io/calm-tabelline/>. The tablet still uses the
+offline file copied onto the device — the Pages site is just the same single
+file, hosted.
+
 ## Structure
 
 ```

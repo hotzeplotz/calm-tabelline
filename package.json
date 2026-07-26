@@ -1,5 +1,5 @@
 {
-  "name": "times-tables",
+  "name": "calm-tabelline",
   "version": "1.0.0",
   "description": "A calm, terminal-styled times-tables practice app for kids. Builds to a single self-contained HTML file.",
   "private": true,

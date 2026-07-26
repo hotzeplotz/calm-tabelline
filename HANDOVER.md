@@ -27,7 +27,12 @@ npm run build              # typecheck + bundle -> dist/times-tables.html
 npm run build -- --minify  # smaller output for the device
 npm test                   # build:fast + jsdom smoke test (node:test)
 npm run dev                # watch mode: rebuild on any src/ change
+npm run format:check       # prettier (CI enforces this)
 ```
+
+CI (`.github/workflows/deploy.yml`) runs format check + typecheck + smoke test
+on every push to main, then publishes the minified build to GitHub Pages:
+<https://hotzeplotz.github.io/calm-tabelline/>.
 
 The build (`build.mjs`) does three things: compiles `src/styles/main.scss` with
 dart-sass, bundles `src/main.ts` to an ES2019 IIFE with esbuild, and inlines both
