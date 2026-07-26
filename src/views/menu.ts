@@ -32,7 +32,7 @@ export function renderMenu(s: State, l: Strings): string {
   // With colour-coding on, each pill wears its tabellina hue; selection then
   // becomes a ring instead of the amber fill so the tint stays legible.
   const tables = [2, 3, 4, 5, 6, 7, 8, 9]
-    .map((t) => pill("table", String(t), colorNum(t, s.code), t === s.table, s.code ? " tint" : ""))
+    .map((t) => pill("table", String(t), colorNum(t, s.code), s.tables.includes(t), s.code ? " tint" : ""))
     .join("");
 
   const preset = (a: number, b: number): boolean => !s.custom && s.start === a && s.end === b;
@@ -71,6 +71,6 @@ export function renderMenu(s: State, l: Strings): string {
     `<div class="row"><div class="rl">${l.kmode}</div><div><div class="pills">${modes}</div><div class="modeline">${note}</div></div></div>` +
     choices +
     `<div class="start"><button type="button" class="btn" data-a="start">${l.start} \u21b5</button>` +
-    `<span class="hint">${l.tableOf(s.table)} \u00b7 ${l.ord[s.order]} \u00b7 ${l.md[s.mode]}</span></div>`
+    `<span class="hint">${l.tablesOf(s.tables)} \u00b7 ${l.ord[s.order]} \u00b7 ${l.md[s.mode]}</span></div>`
   );
 }

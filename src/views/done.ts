@@ -1,16 +1,16 @@
-import type { State } from "../types";
+import type { Item, State } from "../types";
 import type { Strings } from "../i18n";
+import { itemKey } from "../state";
 
 export function renderDone(s: State, l: Strings): string {
-  const t = s.table;
   let sub: string;
-  const missed: number[] = [];
+  const missed: Item[] = [];
 
   if (s.mode === "choose") {
     let right = 0;
-    for (const b of s.items) {
-      if (s.results[b]) right++;
-      else missed.push(b);
+    for (const it of s.items) {
+      if (s.results[itemKey(it)]) right++;
+      else missed.push(it);
     }
     sub = l.subChoose(right, s.items.length);
   } else {
@@ -26,7 +26,7 @@ export function renderDone(s: State, l: Strings): string {
     `<button type="button" class="ctrl ghost" data-a="menu">${l.changeSetup}</button>`;
 
   return (
-    `<h2 class="done-h">${l.doneH(t)}</h2>` +
+    `<h2 class="done-h">${l.doneH(l.tablesOf(s.tables))}</h2>` +
     `<p class="done-sub">${sub} ${l.subTail}</p>` +
     `<div class="done-actions">${actions}</div>`
   );

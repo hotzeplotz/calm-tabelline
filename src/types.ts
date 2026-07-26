@@ -4,6 +4,12 @@ export type Mode = "study" | "reveal" | "choose";
 export type Order = "seq" | "shuffle";
 export type View = "menu" | "practice" | "done";
 
+/** One practice question: a × b, where a is the table and b the multiplier. */
+export interface Item {
+  a: number;
+  b: number;
+}
+
 /** Full application state. A single mutable object owned by the controller. */
 export interface State {
   // preferences (persisted)
@@ -13,7 +19,7 @@ export interface State {
 
   // menu selections
   view: View;
-  table: number; // 2..9
+  tables: number[]; // selected tables, ascending, each 2..9, never empty
   start: number; // multiplier lower bound, 1..10
   end: number; // multiplier upper bound, 1..10
   custom: boolean; // custom range chosen (vs a preset)
@@ -22,13 +28,13 @@ export interface State {
   n: number; // number of choices in choose mode, 3..5
 
   // practice run
-  items: number[]; // ordered multipliers for this session
+  items: Item[]; // ordered questions for this session
   idx: number;
   revealed: boolean; // reveal mode: current answer shown?
   choices: number[]; // choose mode: options for the current item
   picked: number | null; // choose mode: value the child tapped
-  done: Record<number, boolean>; // multipliers completed this session
-  results: Record<number, boolean>; // choose mode: multiplier -> correct?
+  done: Record<string, boolean>; // itemKey -> completed this session
+  results: Record<string, boolean>; // choose mode: itemKey -> correct?
   retryMode: boolean;
-  missed: number[]; // multipliers to retry (from a finished choose session)
+  missed: Item[]; // questions to retry (from a finished choose session)
 }

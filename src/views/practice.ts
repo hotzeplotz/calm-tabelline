@@ -1,7 +1,7 @@
 import type { State } from "../types";
 import type { Strings } from "../i18n";
 import { colorNum } from "../colors";
-import { currentB } from "../state";
+import { current } from "../state";
 
 const X = "\u00d7";
 
@@ -15,8 +15,11 @@ function ctrl(action: Action, label: string, key: string, primary: boolean): str
 }
 
 export function renderPractice(s: State, l: Strings): string {
-  const t = s.table;
-  const cur = currentB(s);
+  // The left column follows the current question's table, so with several
+  // tabelline in the session it switches as the questions do.
+  const it = current(s);
+  const t = it.a;
+  const cur = it.b;
   const coded = s.code;
 
   // Left column: the whole table 1..10, with the active subset lit and filling in.
@@ -24,7 +27,7 @@ export function renderPractice(s: State, l: Strings): string {
   for (let b = 1; b <= 10; b++) {
     const inS = b >= s.start && b <= s.end;
     const isCur = inS && b === cur;
-    const isDone = !!s.done[b];
+    const isDone = !!s.done[`${t}x${b}`];
     const showAns =
       (s.mode === "study" && inS) ||
       isDone ||
@@ -94,7 +97,7 @@ export function renderPractice(s: State, l: Strings): string {
 
   const feedbackHtml = s.mode === "choose" ? `<div class="feedback">${feedback}</div>` : "";
   const recap =
-    `${l.tableOf(t)}  \u00b7  ${X}${s.start}\u2013${X}${s.end}  \u00b7  ${l.ord[s.order]}  \u00b7  ${l.md[s.mode]}` +
+    `${l.tablesOf(s.tables)}  \u00b7  ${X}${s.start}\u2013${X}${s.end}  \u00b7  ${l.ord[s.order]}  \u00b7  ${l.md[s.mode]}` +
     (s.retryMode ? `  \u00b7  ${l.retrying}` : "");
 
   return (

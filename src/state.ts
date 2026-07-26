@@ -1,4 +1,4 @@
-import type { State } from "./types";
+import type { Item, State } from "./types";
 
 // --- persistence -----------------------------------------------------------
 // Wrapped so a sandboxed or file:// origin that throws on storage access just
@@ -31,7 +31,7 @@ export function createState(): State {
     lang: load("lang", "pt") as State["lang"],
     code: load("code", "1") === "1",
     view: "menu",
-    table: 2,
+    tables: [2],
     start: 1,
     end: 10,
     custom: false,
@@ -115,17 +115,27 @@ export function makeChoices(a: number, b: number, n: number): number[] {
   return shuffle([correct, ...picks]);
 }
 
-/** Prepare a fresh practice run over the given multipliers. */
-export function buildSession(s: State, list: number[]): void {
+export const itemKey = (it: Item): string => `${it.a}x${it.b}`;
+
+/** All questions for the current menu selection: each chosen table crossed with the range. */
+export function sessionItems(s: State): Item[] {
+  const out: Item[] = [];
+  for (const a of s.tables) for (const b of range(s.start, s.end)) out.push({ a, b });
+  return out;
+}
+
+/** Prepare a fresh practice run over the given questions. */
+export function buildSession(s: State, list: Item[]): void {
   s.items = s.order === "shuffle" ? shuffle(list) : list.slice();
   s.idx = 0;
   s.revealed = false;
   s.picked = null;
   s.done = {};
   s.results = {};
-  if (s.mode === "choose") s.choices = makeChoices(s.table, s.items[0]!, s.n);
+  const first = s.items[0]!;
+  if (s.mode === "choose") s.choices = makeChoices(first.a, first.b, s.n);
 }
 
-export function currentB(s: State): number {
+export function current(s: State): Item {
   return s.items[s.idx]!;
 }

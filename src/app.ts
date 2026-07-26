@@ -1,7 +1,7 @@
 import type { Mode, Order, State } from "./types";
 import type { Strings } from "./i18n";
 import { T } from "./i18n";
-import { buildSession, createState, currentB, makeChoices, range, save } from "./state";
+import { buildSession, createState, current, itemKey, makeChoices, save, sessionItems } from "./state";
 import { wireSlider } from "./slider";
 import { renderMenu } from "./views/menu";
 import { renderPractice } from "./views/practice";
@@ -30,16 +30,19 @@ function startPractice(): void {
   if (S.end < S.start) [S.start, S.end] = [S.end, S.start];
   S.retryMode = false;
   S.view = "practice";
-  buildSession(S, range(S.start, S.end));
+  buildSession(S, sessionItems(S));
   render();
 }
 function advance(): void {
-  S.done[currentB(S)] = true;
+  S.done[itemKey(current(S))] = true;
   if (S.idx < S.items.length - 1) {
     S.idx++;
     S.revealed = false;
     S.picked = null;
-    if (S.mode === "choose") S.choices = makeChoices(S.table, currentB(S), S.n);
+    if (S.mode === "choose") {
+      const it = current(S);
+      S.choices = makeChoices(it.a, it.b, S.n);
+    }
   } else {
     S.view = "done";
   }
@@ -50,10 +53,11 @@ function back(): void {
   S.idx--;
   S.revealed = S.mode === "study";
   S.picked = null;
-  delete S.done[S.items[S.idx]!];
+  const it = current(S);
+  delete S.done[itemKey(it)];
   if (S.mode === "choose") {
-    delete S.results[S.items[S.idx]!];
-    S.choices = makeChoices(S.table, currentB(S), S.n);
+    delete S.results[itemKey(it)];
+    S.choices = makeChoices(it.a, it.b, S.n);
   }
   render();
 }
@@ -66,8 +70,20 @@ function reveal(): void {
 function pick(v: number): void {
   if (S.picked !== null) return;
   S.picked = v;
-  S.results[currentB(S)] = v === S.table * currentB(S);
+  const it = current(S);
+  S.results[itemKey(it)] = v === it.a * it.b;
   render();
+}
+// Toggle a table in the selection; the last selected one stays put so a
+// session always has at least one table.
+function toggleTable(t: number): void {
+  const i = S.tables.indexOf(t);
+  if (i >= 0) {
+    if (S.tables.length > 1) S.tables.splice(i, 1);
+  } else {
+    S.tables.push(t);
+    S.tables.sort((a, b) => a - b);
+  }
 }
 function toMenu(): void {
   S.view = "menu";
@@ -128,7 +144,7 @@ function onAppClick(e: MouseEvent): void {
   const v = el.getAttribute("data-v");
   switch (a) {
     case "table":
-      S.table = Number(v);
+      toggleTable(Number(v));
       break;
     case "range":
       setRange(v!);
@@ -160,7 +176,7 @@ function onAppClick(e: MouseEvent): void {
     case "again":
       S.retryMode = false;
       S.view = "practice";
-      buildSession(S, range(S.start, S.end));
+      buildSession(S, sessionItems(S));
       render();
       return;
     case "retry":
@@ -201,7 +217,7 @@ function onKeydown(e: KeyboardEvent): void {
   const k = e.key;
   if (S.view === "menu") {
     if (k >= "2" && k <= "9") {
-      S.table = Number(k);
+      toggleTable(Number(k));
       render();
       e.preventDefault();
     } else if (k === "Enter") {
@@ -214,7 +230,7 @@ function onKeydown(e: KeyboardEvent): void {
     if (k === "Enter") {
       S.retryMode = false;
       S.view = "practice";
-      buildSession(S, range(S.start, S.end));
+      buildSession(S, sessionItems(S));
       render();
       e.preventDefault();
     } else if (k === "Escape") {

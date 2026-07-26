@@ -79,6 +79,25 @@ test("table pills wear their tabellina hue and a ring when coding is on", () => 
   assert.ok(!plain2.classList.contains("tint"), "amber fill selection when coding is off");
 });
 
+test("tabelline are multi-selectable, and the last one cannot be deselected", () => {
+  const w = boot();
+  click($(w, '[data-a="table"][data-v="4"]'));
+  assert.ok($(w, '[data-a="table"][data-v="2"]').classList.contains("on"), "2 stays selected");
+  assert.ok($(w, '[data-a="table"][data-v="4"]').classList.contains("on"), "4 added");
+  click($(w, '[data-a="table"][data-v="4"]'));
+  assert.ok(!$(w, '[data-a="table"][data-v="4"]').classList.contains("on"), "4 toggled back off");
+  click($(w, '[data-a="table"][data-v="2"]'));
+  assert.ok($(w, '[data-a="table"][data-v="2"]').classList.contains("on"), "last table stays put");
+});
+
+test("a multi-table session crosses every chosen table with the range", () => {
+  const w = boot();
+  click($(w, '[data-a="table"][data-v="7"]'));
+  click($(w, '[data-a="start"]'));
+  assert.equal($(w, ".progress").textContent, "1 / 20", "2 tables x 10 multipliers");
+  assert.ok($(w, ".recap").textContent.includes("2") && $(w, ".recap").textContent.includes("7"));
+});
+
 test("language switch changes the chrome", () => {
   const w = boot();
   click($(w, '#langseg [data-lang="it"]'));

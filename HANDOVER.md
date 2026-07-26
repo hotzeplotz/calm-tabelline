@@ -89,7 +89,8 @@ than inventing new hues.
 `state.ts#createState()` sets the starting preferences, baked in for the tablet
 (a `file://` origin's `localStorage` may not persist between launches):
 `theme:"system"`, `lang:"pt"`, `code:true` (via `load("code","1")`), plus
-`table:2`, full range, `order:"seq"`, `mode:"study"`, `n:4`. To change the launch
+`tables:[2]` (the picker is multi-select), full range, `order:"seq"`,
+`mode:"study"`, `n:4`. To change the launch
 state, edit the `load(...)` fallbacks / literals there — the smoke test asserts
 them, so update `test/smoke.test.mjs` in the same change.
 

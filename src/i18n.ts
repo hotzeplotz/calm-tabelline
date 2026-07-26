@@ -2,6 +2,10 @@ import type { Lang, Mode, Order } from "./types";
 
 const X = "\u00d7";
 
+/** "2, 4 e 7" \u2014 oxford-comma-free list join shared by the tablesOf strings. */
+const listJoin = (parts: string[], and: string): string =>
+  parts.length === 1 ? parts[0]! : `${parts.slice(0, -1).join(", ")} ${and} ${parts[parts.length - 1]!}`;
+
 /** All user-facing microcopy for one language. */
 export interface Strings {
   brand: string;
@@ -49,9 +53,9 @@ export interface Strings {
   subTail: string;
   goAgain: string;
   changeSetup: string;
-  tableOf: (n: number) => string;
+  tablesOf: (ns: readonly number[]) => string;
   wholeTable: (n: number) => string;
-  doneH: (n: number) => string;
+  doneH: (label: string) => string;
   subChoose: (right: number, total: number) => string;
   retryBtn: (k: number) => string;
 }
@@ -62,7 +66,7 @@ export const T: Record<Lang, Strings> = {
     suffix: "— practice",
     leadPre: "set up a session, then press ",
     leadPost: " to begin. nothing is timed, and nothing is scored against you.",
-    ktable: "table",
+    ktable: "tables",
     krange: "range",
     korder: "order",
     kmode: "mode",
@@ -82,7 +86,7 @@ export const T: Record<Lang, Strings> = {
     noteReveal: "say your answer out loud, then reveal it to check.",
     noteChoose: "tap the answer you think is right.",
     start: "start",
-    numHint: "or use a number key 2\u20139",
+    numHint: "pick one or more \u2014 number keys 2\u20139 work too",
     ord: { seq: "in order", shuffle: "shuffled" },
     md: { study: "study", reveal: "reveal", choose: "choose" },
     retrying: "retrying the missed ones",
@@ -100,12 +104,13 @@ export const T: Record<Lang, Strings> = {
     menu: "menu",
     keySpace: "space",
     subPlain: "you worked through the whole thing, one line at a time.",
-    subTail: "that whole table is only ten lines \u2014 you just did the ones you chose.",
+    subTail: "each table is only ten lines \u2014 you just did the ones you chose.",
     goAgain: "go again",
     changeSetup: "change setup",
-    tableOf: (n) => `table of ${n}`,
+    tablesOf: (ns) =>
+      ns.length === 1 ? `table of ${ns[0]}` : `tables of ${listJoin(ns.map(String), "and")}`,
     wholeTable: (n) => `the whole table of ${n}`,
-    doneH: (n) => `table of ${n} \u2014 done.`,
+    doneH: (label) => `${label} \u2014 done.`,
     subChoose: (r, t) => `you got ${r} of ${t} on your own.`,
     retryBtn: (k) => `practise the ${k} missed`,
   },
@@ -114,7 +119,7 @@ export const T: Record<Lang, Strings> = {
     suffix: "— praticar",
     leadPre: "prepara uma sess\u00e3o e depois carrega em ",
     leadPost: " para come\u00e7ar. n\u00e3o h\u00e1 tempo a contar nem pontua\u00e7\u00e3o contra ti.",
-    ktable: "tabuada",
+    ktable: "tabuadas",
     krange: "intervalo",
     korder: "ordem",
     kmode: "modo",
@@ -134,7 +139,7 @@ export const T: Record<Lang, Strings> = {
     noteReveal: "diz a resposta em voz alta e depois revela para confirmar.",
     noteChoose: "toca na resposta que achas certa.",
     start: "come\u00e7ar",
-    numHint: "ou usa uma tecla de 2 a 9",
+    numHint: "escolhe uma ou mais — as teclas de 2 a 9 também servem",
     ord: { seq: "por ordem", shuffle: "baralhado" },
     md: { study: "estudar", reveal: "revelar", choose: "escolher" },
     retrying: "a rever os erros",
@@ -152,12 +157,18 @@ export const T: Record<Lang, Strings> = {
     menu: "menu",
     keySpace: "espa\u00e7o",
     subPlain: "passaste por tudo, uma linha de cada vez.",
-    subTail: "a tabuada inteira s\u00f3 tem dez linhas \u2014 fizeste as que escolheste.",
+    subTail: "cada tabuada s\u00f3 tem dez linhas \u2014 fizeste as que escolheste.",
     goAgain: "outra vez",
     changeSetup: "mudar defini\u00e7\u00f5es",
-    tableOf: (n) => `tabuada do ${n}`,
+    tablesOf: (ns) =>
+      ns.length === 1
+        ? `tabuada do ${ns[0]}`
+        : `tabuadas ${listJoin(
+            ns.map((n) => `do ${n}`),
+            "e",
+          )}`,
     wholeTable: (n) => `a tabuada do ${n} inteira`,
-    doneH: (n) => `tabuada do ${n} \u2014 feito.`,
+    doneH: (label) => `${label} \u2014 feito.`,
     subChoose: (r, t) => `acertaste ${r} de ${t} sozinha.`,
     retryBtn: (k) => `rever as ${k} erradas`,
   },
@@ -166,7 +177,7 @@ export const T: Record<Lang, Strings> = {
     suffix: "— pratica",
     leadPre: "prepara una sessione, poi premi ",
     leadPost: " per iniziare. niente tempo, niente punteggio contro di te.",
-    ktable: "tabellina",
+    ktable: "tabelline",
     krange: "intervallo",
     korder: "ordine",
     kmode: "modalit\u00e0",
@@ -186,7 +197,7 @@ export const T: Record<Lang, Strings> = {
     noteReveal: "d\u00ec la risposta ad alta voce, poi scoprila per controllare.",
     noteChoose: "tocca la risposta che pensi sia giusta.",
     start: "inizia",
-    numHint: "oppure usa un tasto da 2 a 9",
+    numHint: "scegline una o più — vanno bene anche i tasti da 2 a 9",
     ord: { seq: "in ordine", shuffle: "mescolata" },
     md: { study: "studiare", reveal: "scoprire", choose: "scegliere" },
     retrying: "ripasso degli errori",
@@ -204,12 +215,18 @@ export const T: Record<Lang, Strings> = {
     menu: "menu",
     keySpace: "spazio",
     subPlain: "hai fatto tutto, una riga alla volta.",
-    subTail: "tutta la tabellina \u00e8 solo dieci righe \u2014 hai fatto quelle che hai scelto.",
+    subTail: "ogni tabellina \u00e8 solo dieci righe \u2014 hai fatto quelle che hai scelto.",
     goAgain: "ancora",
     changeSetup: "cambia impostazioni",
-    tableOf: (n) => `tabellina del ${n}`,
+    tablesOf: (ns) =>
+      ns.length === 1
+        ? `tabellina del ${ns[0]}`
+        : `tabelline ${listJoin(
+            ns.map((n) => `del ${n}`),
+            "e",
+          )}`,
     wholeTable: (n) => `tutta la tabellina del ${n}`,
-    doneH: (n) => `tabellina del ${n} \u2014 fatto.`,
+    doneH: (label) => `${label} \u2014 fatto.`,
     subChoose: (r, t) => `ne hai indovinate ${r} su ${t} da sola.`,
     retryBtn: (k) => `ripassa le ${k} sbagliate`,
   },
