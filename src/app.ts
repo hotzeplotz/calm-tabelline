@@ -20,8 +20,18 @@ function effectiveTheme(): "light" | "dark" {
   }
   return S.theme;
 }
-function applyTheme(): void {
-  document.documentElement.setAttribute("data-theme", effectiveTheme());
+let fadeTimer: number | undefined;
+// fade: cross-fade the whole UI (see html.theme-fade in _base.scss) — wanted
+// for user-initiated switches, not for the initial paint.
+function applyTheme(fade = false): void {
+  const root = document.documentElement;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (fade && !reduce) {
+    root.classList.add("theme-fade");
+    window.clearTimeout(fadeTimer);
+    fadeTimer = window.setTimeout(() => root.classList.remove("theme-fade"), 1300);
+  }
+  root.setAttribute("data-theme", effectiveTheme());
 }
 
 // --- transitions -----------------------------------------------------------
@@ -204,7 +214,7 @@ function onTitlebarClick(e: MouseEvent): void {
   } else if (b.hasAttribute("data-theme")) {
     S.theme = b.getAttribute("data-theme") as State["theme"];
     save("theme", S.theme);
-    applyTheme();
+    applyTheme(true);
     updateChrome();
   } else if (b.hasAttribute("data-code")) {
     S.code = b.getAttribute("data-code") === "1";
@@ -271,7 +281,7 @@ export function init(): void {
   if (window.matchMedia) {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = (): void => {
-      if (S.theme === "system") applyTheme();
+      if (S.theme === "system") applyTheme(true);
     };
     if (mq.addEventListener) mq.addEventListener("change", onChange);
     else if (mq.addListener) mq.addListener(onChange);

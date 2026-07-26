@@ -19,9 +19,17 @@ body {
   padding: 20px;
   min-height: 100vh;
   min-height: 100dvh;
+}
+// Theme switches: applyTheme() puts .theme-fade on <html> for the switch
+// itself, so every surface cross-fades together; outside of that, components
+// keep their own quick hover/press timings. Skipped under reduced motion.
+html.theme-fade,
+html.theme-fade * {
   transition:
-    background 0.18s,
-    color 0.18s;
+    background-color 2s,
+    color 2s,
+    border-color 2s,
+    box-shadow 2s !important;
 }
 @media (prefers-reduced-motion: reduce) {
   * {
