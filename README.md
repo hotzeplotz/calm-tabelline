@@ -1,4 +1,4 @@
-# times tables
+# Calm Tabelline
 
 A calm, terminal-styled times-tables practice app for a young child. It treats
 practice as a real tool rather than a game: no timers, no scores-against-you, no
@@ -8,6 +8,9 @@ and optional Bortolato _Striscia delle tabelline_ colour-coding.
 The whole app builds to **one self-contained HTML file** (`dist/times-tables.html`)
 with zero external requests, so it runs offline from a `file://` path — e.g. copied
 onto a tablet and opened in Webview Kiosk — or from any static host.
+
+[![build](https://github.com/hotzeplotz/calm-tabelline/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/hotzeplotz/calm-tabelline/actions/workflows/deploy.yml)
+[![pages](https://img.shields.io/website?url=https%3A%2F%2Fhotzeplotz.github.io%2Fcalm-tabelline%2F&label=pages)](https://hotzeplotz.github.io/calm-tabelline/)
 
 ## Quick start
 
