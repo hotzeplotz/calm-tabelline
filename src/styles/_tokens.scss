@@ -44,6 +44,16 @@
   --d8: #c68d4f; // 8 — orange (measured)
   --d9: #c16857; // 9 — red
 
+  // Washes: 40% of the digit hue over the panel, for tinted pill backgrounds.
+  --d2w: #513c48;
+  --d3w: #4b3d4f;
+  --d4w: #3c4250;
+  --d5w: #3c4c4c;
+  --d6w: #555032;
+  --d7w: #63562f;
+  --d8w: #5c4732;
+  --d9w: #5a3835;
+
   --radius: 12px;
   --mono:
     "JetBrains Mono", "Fira Code", "Cascadia Code", "SF Mono", "DejaVu Sans Mono", ui-monospace, Menlo,
@@ -79,4 +89,14 @@
   --d7: #b59028;
   --d8: #c48847;
   --d9: #b65643; // measured
+
+  // Washes: 25% of the digit hue over white, for tinted pill backgrounds.
+  --d2w: #e7d8de;
+  --d3w: #ddd5dc;
+  --d4w: #d9dce3;
+  --d5w: #dde6e4;
+  --d6w: #e7e4d1;
+  --d7w: #ece3c9;
+  --d8w: #f0e1d1;
+  --d9w: #edd5d0;
 }

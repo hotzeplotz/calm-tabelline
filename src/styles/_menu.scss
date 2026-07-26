@@ -46,12 +46,28 @@
     color: var(--sel-ink);
     background: var(--sel-bg);
   }
-  // Colour-coded table pills: the digit carries its tabellina colour, so the
-  // selected state is a ring rather than the amber fill it would clash with.
+  // Colour-coded table pills: the background carries the tabellina hue — a
+  // soft wash at rest, the full colour when selected. The digit stays neutral
+  // (ink on the wash, button-ink on the full colour), like the start button.
+  &.tint {
+    color: var(--ink);
+    border-color: transparent;
+  }
   &.tint.on {
-    background: transparent;
-    border-color: var(--sel-bg);
-    box-shadow: inset 0 0 0 1.5px var(--sel-bg);
+    color: var(--btn-ink);
+    font-weight: 700;
+    border-color: var(--ink);
+    // Thicken the rim without a border-width change, so pills don't shift
+    // size as they toggle.
+    box-shadow: inset 0 0 0 1.5px var(--ink);
+  }
+  @each $d in 2, 3, 4, 5, 6, 7, 8, 9 {
+    &.tint.t#{$d} {
+      background: var(--d#{$d}w);
+    }
+    &.tint.t#{$d}.on {
+      background: var(--d#{$d});
+    }
   }
   &.mini {
     padding: 6px 11px;

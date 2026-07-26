@@ -68,15 +68,15 @@ test("colour-coding toggle injects and removes var(--dN) tints", () => {
   assert.ok($(w, "#app").innerHTML.includes("var(--d"), "coded again after toggle on");
 });
 
-test("table pills wear their tabellina hue and a ring when coding is on", () => {
+test("table pills wear tinted backgrounds when coding is on", () => {
   const w = boot();
   const pill2 = $(w, '[data-a="table"][data-v="2"]');
-  assert.ok(pill2.innerHTML.includes("var(--d2)"), "pill digit tinted by default");
-  assert.ok(pill2.classList.contains("tint") && pill2.classList.contains("on"));
+  assert.ok(pill2.classList.contains("tint") && pill2.classList.contains("t2"), "background classes on");
+  assert.ok(pill2.classList.contains("on"), "table 2 selected by default");
+  assert.ok(!pill2.innerHTML.includes("var(--d"), "digit itself stays neutral");
   click($(w, '#codeseg [data-code="0"]'));
   const plain2 = $(w, '[data-a="table"][data-v="2"]');
-  assert.ok(!plain2.innerHTML.includes("var(--d"), "plain digit when coding is off");
-  assert.ok(!plain2.classList.contains("tint"), "amber fill selection when coding is off");
+  assert.ok(!plain2.classList.contains("tint"), "plain pills when coding is off");
 });
 
 test("tabelline are multi-selectable, and the last one cannot be deselected", () => {
